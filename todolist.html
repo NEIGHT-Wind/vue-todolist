@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>todolist</title>
+	<link rel="stylesheet" type="text/css" href="./todolist.css">
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<div class="page-top">
+		<div class="page-content">
+			<h2>任务计划列表</h2>
+		</div>
+	</div>
+	<div class="main">
+		<h3 class="big-title">添加任务：</h3>
+		<input type="text" class="task-input" v-model="inputValue" v-on:keyup.13="addTodo">
+		<ul class="task-count">
+			<li>{{filterList}}个任务未完成</li>
+			<li class="action">
+				<a href="#all">所有任务</a>
+				<a href="#unfinish">未完成任务</a>
+				<a href="#finish">完成任务</a>
+			</li>
+		</ul>
+		<h3 class="big-title">任务列表：</h3>
+		<div class="tasks">
+			<span class="no-task-tips" v-show="!list.length">未添加任何项目</span>
+			<ul class="todo-list">
+				<li class="list" v-for="item in filterCheck" v-bind:class="{completed:item.checked, editing:editingTodo === item}">
+					<div class="view">
+						<input class="toggle" type="checkbox" v-model="item.checked">
+						<label v-on:dblclick="editTodo(item)">{{item.title}}</label>
+						<button class="destory" v-on:click="deleteTodo(item)"></button>
+					</div>
+					<input class="edit" type="text" v-focus="editingTodo == item" v-model="item.title" v-on:keyup.13="editedTodo" v-on:blur="editedTodo" v-on:keyup.esc="cancelEdit(item)">
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript" src="todolist.js"></script>
+</body>
+</html>
